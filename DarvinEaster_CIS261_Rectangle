@@ -1,0 +1,49 @@
+class Rectangle:
+    def __init__(self, height, width):
+        self.height = height
+        self.width = width
+
+    def calculate_perimeter(self):
+        return 2 * (self.height + self.width)
+
+    def calculate_area(self):
+        return self.height * self.width
+
+    def print_rectangle(self):
+        for i in range(self.height):
+            if i == 0 or i == self.height - 1:
+                print("* " * self.width)
+            else:
+                print("* " + "  " * (self.width - 2) + "*")
+
+def main():
+    while True:
+        print("Rectangle Calculator")
+        try:
+            height = int(input("Height: "))
+            width = int(input("Width: "))
+
+            if height <= 0 or width <= 0:
+                print("Height and Width must be positive integers. Please try again.")
+                continue
+
+            rectangle = Rectangle(height, width)
+            
+            perimeter = rectangle.calculate_perimeter()
+            area = rectangle.calculate_area()
+
+            print(f"Perimeter: {perimeter}")
+            print(f"Area: {area}")
+
+            print("\nRectangle:")
+            rectangle.print_rectangle()
+        
+            continue_choice = input("\nContinue? (y/n): ").strip().lower()
+            if continue_choice != 'y':
+                print("Goodbye!")
+                break
+        except ValueError:
+            print("Invalid input. Please enter positive integers for height and width.")
+
+if __name__ == "__main__":
+    main()
