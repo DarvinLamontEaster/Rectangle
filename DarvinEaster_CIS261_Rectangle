@@ -1,49 +1,58 @@
-class Rectangle:
-    def __init__(self, height, width):
-        self.height = height
-        self.width = width
+import random
 
-    def calculate_perimeter(self):
-        return 2 * (self.height + self.width)
+class Card:
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.suit = suit
 
-    def calculate_area(self):
-        return self.height * self.width
+    def __str__(self):
+        return f"{self.rank} of {self.suit}"
 
-    def print_rectangle(self):
-        for i in range(self.height):
-            if i == 0 or i == self.height - 1:
-                print("* " * self.width)
-            else:
-                print("* " + "  " * (self.width - 2) + "*")
+class Deck:
+    def __init__(self):
+        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+        self.deck = [Card(rank, suit) for suit in suits for rank in ranks]
 
+    def shuffle(self):
+        random.shuffle(self.deck)
+
+    def deal(self, num_cards):
+        if num_cards > len(self.deck):
+            raise ValueError("Not enough cards left to deal.")
+        dealt_cards = self.deck[:num_cards]
+        self.deck = self.deck[num_cards:]
+        return dealt_cards
+
+    def count(self):
+        return len(self.deck)
+
+# Main Function
 def main():
+    print("Card Dealer")
+    deck = Deck()
+    deck.shuffle()
+    print("I have shuffled a deck of 52 cards.")
+    
     while True:
-        print("Rectangle Calculator")
         try:
-            height = int(input("Height: "))
-            width = int(input("Width: "))
-
-            if height <= 0 or width <= 0:
-                print("Height and Width must be positive integers. Please try again.")
+            num_cards = int(input("How many cards would you like?: "))
+            if num_cards <= 0:
+                print("Please enter a positive number.")
                 continue
 
-            rectangle = Rectangle(height, width)
-            
-            perimeter = rectangle.calculate_perimeter()
-            area = rectangle.calculate_area()
+            cards = deck.deal(num_cards)
+            print("\nHere are your cards:")
+            for card in cards:
+                print(card)
 
-            print(f"Perimeter: {perimeter}")
-            print(f"Area: {area}")
+            print(f"\nThere are {deck.count()} cards left in the deck.")
+            break
+        except ValueError as e:
+            print(e)
 
-            print("\nRectangle:")
-            rectangle.print_rectangle()
-        
-            continue_choice = input("\nContinue? (y/n): ").strip().lower()
-            if continue_choice != 'y':
-                print("Goodbye!")
-                break
-        except ValueError:
-            print("Invalid input. Please enter positive integers for height and width.")
+    print("\nGood luck!")
+    input("Press any key to continue . . .")
 
 if __name__ == "__main__":
     main()
